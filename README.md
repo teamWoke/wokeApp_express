@@ -1,5 +1,4 @@
-** This repository is the Express component of a full stack App.  It works in concert with the React App found [here](https://github.com/teamWoke/WokeApp).
-**
+**This repository is the Express component of a full stack App.  It works in concert with the React App found [here](https://github.com/teamWoke/WokeApp).**
 
 # Woke
 
@@ -38,6 +37,7 @@ Woke receives and stores search term(s) provided by the user.  It then retrieves
 - Express.js 
 - HTML
 - CSS
+- PostgreSQL
 
 ********************************
 ## Node Packages:
