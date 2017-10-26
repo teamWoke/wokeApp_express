@@ -4,7 +4,7 @@
 
 #### Woke is a news analysis app that gives data-based insight into editorial choices and presents them without comment.
 
-Woke receives and stores search term(s) provided by the user.  It then retrieves news data related to those search terms and provides the user with the number of relevant articles published by [PUBLICATIONS USED IN APP] over [DATE RANGE COVERED BY SEARCH].  As a user stores more search terms, they are provided with a more robust pictures of the editorial choices made by each publication.  The user compare the relative importance placed on a given topic by the publication given the amount of coverage devoted to it.
+Woke receives and stores search term(s) provided by the user.  It then retrieves news data related to those search terms and provides the user with the number of relevant articles published by [PUBLICATIONS USED IN APP] over [DATE RANGE COVERED BY SEARCH].  As a user stores more search terms, s/he is provided with a more robust picture of the editorial choices made by each publication.  The user is then able to compare the relative importance placed on a given topic by the publication given the amount of coverage devoted to it.
 
 ********************************
 ## User Stories:
