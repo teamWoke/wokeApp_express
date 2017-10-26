@@ -9,33 +9,51 @@ const auth = require('../services/auth');
 const methodOverride = require('express-method-override');
 const bodyParser = require('body-parser');
 const moment = require('moment');
+const pgp = require('pg-promise');
 
 //API keys
 const url = 'http://webhose.io/filterWebContent?token=';
 const token = process.env.API_TOKEN;
 
-News.findAll = (request, response, next) => {
+// News.pushPromise = (query, str) => {
+// 	console.log(`${url}${token}&format=json&sort=crawled&site=${str}&q=%22${query}%22language%3Aenglish`);
+// 			//push axios call promises into empty array outside of forEach loop
+// 			newsPromises.push(
+// 				axios(`${url}${token}&format=json&sort=crawled&site=${str}&q=%22${query}%22language%3Aenglish`));
+// 			//console log length of promise array to make sure it's working
+// 			console.log('promise array check: ', newsPromises.length)
+// }
+
+News.findAll = (req, res, next) => {
+	console.log('news.findall')
 	db.many('SELECT * FROM news')
-	.then((news) => {
-		//console log to check response from DB
-		console.log(news)
+	.then(news => {
+		//console log to check res from DB
+		console.log("in .then()", news);
 		//set array to collect promises from axios calls
 		const newsPromises = [];
 		//make an axios call for each search term in database
 		news.forEach(element => {
+			console.log('inside news.forEach');
 			const query = element.search_term;
-			//console log axios URL to check for errors
-			console.log(`${url}${token}&format=json&sort=crawled&q=${query}language%3Aenglish`);
-			//push axios call promises into empty array outside of forEach loop
 			newsPromises.push(
-				axios(`${url}${token}&format=json&sort=crawled&q=${query}language%3Aenglish`));
+				axios(`${url}${token}&format=json&sort=crawled&site=cnn.com&q=%22${query}%22language%3Aenglish`));
+			newsPromises.push(
+				axios(`${url}${token}&format=json&sort=crawled&site=foxnews.com&q=%22${query}%22language%3Aenglish`));
+			newsPromises.push(
+				axios(`${url}${token}&format=json&sort=crawled&site=bbc.com&q=%22${query}%22language%3Aenglish`));
 			//console log length of promise array to make sure it's working
-			console.log('promise array check: ', newsPromises.length)
-
+			console.log('promise array check: ', newsPromises.length, newsPromises)
+			// News.pushPromise(query, 'cnn.com');
+			// News.pushPromise(query, 'foxnews.com');
+			// News.pushPromise(query, 'bbc.com');
+			// //console log axios URL to check for errors
+			//NOTE!! CONVERT ' ' to '%20' within queries && learn to save ' ' in SQL
 		});
 		
 		//attach .then() call backs to package each axios result
 		axios.all(newsPromises).then(results => {
+			console.log('inside axios.all', results)
 			//set res.locals.newsArray to our processed results
 			//run a map on the axios results array to transform it into an array of packaged data we can use
 			res.locals.newsArray = results.map(element => {	
@@ -50,9 +68,9 @@ News.findAll = (request, response, next) => {
 	})
 };
 
-// News.findById = (request, response, next) => {
-// 	db.one('SELECT * FROM news WHERE ID=$1', [request.params.id]).then((news) => {
-// 		response.locals.news = news;
+// News.findById = (req, res, next) => {
+// 	db.one('SELECT * FROM news WHERE ID=$1', [req.params.id]).then((news) => {
+// 		res.locals.news = news;
 // 		next();
 // 	})
 // 	.catch(err => {
@@ -60,22 +78,22 @@ News.findAll = (request, response, next) => {
 // 	})
 // };
 
-News.create = (request, response, next) => {
-	const { id } = request.params
-	const { search_term, user_id } = request.body;
-	 console.log(request.body);
+News.create = (req, res, next) => {
+	const { id } = req.params
+	const { search_term, user_id } = req.body;
+	 console.log(req.body);
 	db.one(
 		'INSERT INTO news (search_term, user_id)  VALUES ($1, $2) RETURNING *', 
 		[search_term, user_id])
 			.then(news => {
-				response.locals.news = news;
+				res.locals.news = news;
 				next()
 			})
 }
 
-News.destroy = (request, response, next) => {
+News.destroy = (req, res, next) => {
 	console.log("Firing delete");
-    const {id} = request.params;
+    const {id} = req.params;
     db.none(
         'DELETE FROM news WHERE id = $1', [id]
     ).then(() => next())
