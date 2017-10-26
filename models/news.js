@@ -25,10 +25,11 @@ News.findAll = (request, response, next) => {
 		news.forEach(element => {
 			const query = element.search_term;
 			//console log axios URL to check for errors
-			console.log(`${url}${token}&format=json&sort=crawled&q=${query}language%3Aenglish`);
+			//NOTE!! CONVERT ' ' to '%20' within queries && learn to save ' ' in SQL
+			console.log(`${url}${token}&format=json&sort=crawled&q=%22${query}%22language%3Aenglish`);
 			//push axios call promises into empty array outside of forEach loop
 			newsPromises.push(
-				axios(`${url}${token}&format=json&sort=crawled&q=${query}language%3Aenglish`));
+				axios(`${url}${token}&format=json&sort=crawled&q=%22${query}%22language%3Aenglish`));
 			//console log length of promise array to make sure it's working
 			console.log('promise array check: ', newsPromises.length)
 
