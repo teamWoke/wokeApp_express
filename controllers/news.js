@@ -3,31 +3,32 @@ const router = express.Router();
 
 const News = require('../models/news');
 
-router.get('/', News.findAll, (request, response) => {
-	const dataArray = response.locals.news;
-	response.json({
+router.get('/', News.findAll, (req, res) => {
+	console.log('controller /')
+	const dataArray = res.locals.news;
+	res.json({
 		message: 'Here is your data!',
 		news: dataArray
 	});
 });
 
-// router.get('/:id', News.findById, (request, response) => {
-// 	response.json({
+// router.get('/:id', News.findById, (req, res) => {
+// 	res.json({
 // 		message: 'Here is your news',
-// 		news: response.locals.news
+// 		news: res.locals.news
 // 	});
 // });
 
 
-router.post('/', News.create, (request, response) => {
-	const data = response.locals.news;
-	response.json({
+router.post('/', News.create, (req, res) => {
+	const data = res.locals.news;
+	res.json({
 		news: data
 	})
 });
 
-router.delete('/:id',  News.destroy, (request, response) => {
-        response.send('deleted')
+router.delete('/:id',  News.destroy, (req, res) => {
+        res.send('deleted')
     }
 
 );
