@@ -5,7 +5,13 @@ const express = require('express'),
       bodyParser = require('body-parser'),
       port = process.env.PORT || 8080,
       Auth = require('./services/auth'),
-      cors = require('cors')
+      cors = require('cors'),
+      pgp = require('pg-promise')(),
+      axios = require('axios'),
+      dotenv = require('dotenv'),
+      cookieParser = require('cookie-parser'),
+      session = require('express-session');
+
 
 // use cors so we can talk to our other server
 app.use(cors());
