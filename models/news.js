@@ -1,10 +1,26 @@
 const db = require('../db/config');
 const News = {};
 
+//require packages
+const axios = require('axios');
+require('dotenv').config();
+// const passport = require('passport');
+const auth = require('../services/auth');
+const methodOverride = require('express-method-override');
+const bodyParser = require('body-parser');
+const moment = require('moment');
+
+//API keys
+const url = 'http://webhose.io/filterWebContent?token=';
+const token = process.env.API_TOKEN;
+
 News.findAll = (request, response, next) => {
 	db.many('SELECT * FROM news')
 	.then((news) => {
-		response.locals.news = news;
+		//axios call [`&format=json&sort=crawled&q=` ... `language%3Aenglish`]
+		//collect promises
+		//package promises
+		//return promises as response.locals.news = news;
 		next();
 	})
 	.catch(err => {
