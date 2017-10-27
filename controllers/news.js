@@ -32,8 +32,9 @@ router.post('/', News.create, (req, res) => {
 	})
 });
 
-router.delete('/:id',  News.destroy, (req, res) => {
-        res.send('deleted')
+router.delete('/:id', News.destroy, (req, res) => {
+        res.send('deleted');
+        console.log("Hitting delete at controller");
     }
 
 );
