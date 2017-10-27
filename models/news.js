@@ -13,7 +13,21 @@ const pgp = require('pg-promise');
 
 //API keys
 const url = 'http://webhose.io/filterWebContent?token=';
-const token = process.env.API_TOKEN;
+const token0 = process.env.API_TOKEN0;
+const token1 = process.env.API_TOKEN1;
+const token2 = process.env.API_TOKEN2;
+const token3 = process.env.API_TOKEN3;
+const token4 = process.env.API_TOKEN4;
+const token5 = process.env.API_TOKEN5;
+const token6 = process.env.API_TOKEN6;
+const token7 = process.env.API_TOKEN7;
+const token8 = process.env.API_TOKEN8;
+const token9 = process.env.API_TOKEN9;
+const token10 = process.env.API_TOKEN10;
+const token11 = process.env.API_TOKEN11;
+const token12 = process.env.API_TOKEN12;
+
+const tokens = [token0, token1, token2, token3, token4, token5, token6, token7, token8, token9, token10, token11, token12];
 
 News.terms = (req, res, next) => {
     // PULL TERMS FROM DATABASE AND SET AS FIRST ENTRY IN OBJECT ARRAY
@@ -36,12 +50,13 @@ News.cnn = (req, res, next) => {
     //make an axios call for each search term in database
 
 
-    res.locals.newsArray.forEach(element => {
+    res.locals.newsArray.forEach((element, index) => {
         console.log('inside terms.forEach');
         const query = element.term;
         //axios call to CNN route for each search term
+        console.log(`${url}${tokens[index]}&format=json&sort=crawled&site=cnn.com&q=%22${query}%22language%3Aenglish&size=2`);
         newsPromises.push(
-            axios(`${url}${token}&format=json&sort=crawled&site=cnn.com&q=%22${query}%22language%3Aenglish&size=2`));
+            axios(`${url}${tokens[index]}&format=json&sort=crawled&site=cnn.com&q=%22${query}%22language%3Aenglish&size=2`));
         //console log length of promise array to make sure it's working
         console.log('promise array check: ', newsPromises.length, newsPromises)
     })
@@ -67,12 +82,13 @@ News.fox = (req, res, next) => {
     //set array to collect promises from axios.all()s for each term
     const newsPromises = [];
 
-    res.locals.newsArray.forEach(element => {
+    res.locals.newsArray.forEach((element, index) => {
         console.log('inside terms.forEach');
         const query = element.term;
         //axios call to fox route for each search term
+        console.log(`${url}${tokens[index]}&format=json&sort=crawled&site=foxnews.com&q=%22${query}%22language%3Aenglish&size=2`)
         newsPromises.push(
-            axios(`${url}${token}&format=json&sort=crawled&site=foxnews.com&q=%22${query}%22language%3Aenglish&size=2`));
+            axios(`${url}${tokens[index]}&format=json&sort=crawled&site=foxnews.com&q=%22${query}%22language%3Aenglish&size=2`));
         //console log length of promise array to make sure it's working
         console.log('promise array check: ', newsPromises.length, newsPromises)
     })
@@ -100,12 +116,13 @@ News.bbc = (req, res, next) => {
     //make an axios call for each search term in database
 
 
-    res.locals.newsArray.forEach(element => {
+    res.locals.newsArray.forEach((element, index) => {
         console.log('inside terms.forEach');
         const query = element.term;
         //axios call to bbc route for each search term
+        console.log(`${url}${tokens[index]}&format=json&sort=crawled&site=bbc.com&q=%22${query}%22language%3Aenglish&size=2`)
         newsPromises.push(
-            axios(`${url}${token}&format=json&sort=crawled&site=bbc.com&q=%22${query}%22language%3Aenglish&size=2`));
+            axios(`${url}${tokens[index]}&format=json&sort=crawled&site=bbc.com&q=%22${query}%22language%3Aenglish&size=2`));
         //console log length of promise array to make sure it's working
         console.log('promise array check: ', newsPromises.length, newsPromises)
     })

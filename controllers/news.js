@@ -10,7 +10,7 @@ router.get('/',
 	 News.bbc,
 	  (req, res) => {
 	console.log('controller /')
-	const dataArray = res.locals.news;
+	const dataArray = res.locals.newsArray;
 	res.json({
 		message: 'Here is your data!',
 		news: dataArray
