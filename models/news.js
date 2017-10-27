@@ -36,7 +36,8 @@ News.terms = (req, res, next) => {
         .then(terms => {
             const termsArray = [];
             terms.forEach(e => {
-                termsArray.push({ term: e.search_term })
+                termsArray.push({ term: e.search_term,
+                                  id: e.id })
             })
             res.locals.newsArray = termsArray;
             next();
