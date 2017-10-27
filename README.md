@@ -14,9 +14,9 @@ Woke receives and stores search term(s) provided by the user.  It then retrieves
 
 ********************************
 ## Minimum Viable Product:
-- [ ] Sign-up / Log-in authentication
-- [ ] Persistent retention of search terms
-- [ ] News data analysis returning number of articles by publiction
+- [x] Sign-up / Log-in authentication
+- [x] Persistent retention of search terms
+- [x] News data analysis returning number of articles by publiction
 - [ ] Numeric represntation of data comparison to user
 
 ********************************
