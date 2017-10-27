@@ -17,7 +17,7 @@ Woke receives and stores search term(s) provided by the user.  It then retrieves
 - [x] Sign-up / Log-in authentication
 - [x] Persistent retention of search terms
 - [x] News data analysis returning number of articles by publiction
-- [ ] Numeric represntation of data comparison to user
+- [x] Numeric represntation of data comparison to user
 
 ********************************
 ## Reach Goals:
