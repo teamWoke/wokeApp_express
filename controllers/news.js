@@ -3,7 +3,12 @@ const router = express.Router();
 
 const News = require('../models/news');
 
-router.get('/', News.findAll, (req, res) => {
+router.get('/',
+	 News.terms,
+	 News.cnn,
+	 News.fox,
+	 News.bbc,
+	  (req, res) => {
 	console.log('controller /')
 	const dataArray = res.locals.news;
 	res.json({
