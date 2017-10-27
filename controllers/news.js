@@ -38,4 +38,15 @@ router.delete('/:id',  News.destroy, (req, res) => {
 
 );
 
+router.get('/dashboard',
+	 News.terms,
+	  (req, res) => {
+	console.log('controller /')
+	const dataArray = res.locals.newsArray;
+	res.json({
+		message: 'Here is your data!',
+		news: dataArray
+	});
+});
+
 module.exports = router;
