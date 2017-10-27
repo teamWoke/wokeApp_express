@@ -66,8 +66,6 @@ News.fox = (req, res, next) => {
 
     //set array to collect promises from axios.all()s for each term
     const newsPromises = [];
-    //make an axios call for each search term in database
-
 
     res.locals.newsArray.forEach(element => {
         console.log('inside terms.forEach');
