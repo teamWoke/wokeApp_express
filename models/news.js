@@ -15,65 +15,128 @@ const pgp = require('pg-promise');
 const url = 'http://webhose.io/filterWebContent?token=';
 const token = process.env.API_TOKEN;
 
-// News.pushPromise = (query, str) => {
-// 	console.log(`${url}${token}&format=json&sort=crawled&site=${str}&q=%22${query}%22language%3Aenglish`);
-// 			//push axios call promises into empty array outside of forEach loop
-// 			newsPromises.push(
-// 				axios(`${url}${token}&format=json&sort=crawled&site=${str}&q=%22${query}%22language%3Aenglish`));
-// 			//console log length of promise array to make sure it's working
-// 			console.log('promise array check: ', newsPromises.length)
-// }
-
-News.findAll = (req, res, next) => {
-    console.log('news.findall')
+News.terms = (req, res, next) => {
+    // PULL TERMS FROM DATABASE AND SET AS FIRST ENTRY IN OBJECT ARRAY
+    console.log('News.terms');
     db.many('SELECT * FROM news')
-        .then(news => {
-            //console log to check res from DB
-            console.log("in .then()", news);
-            //set array to collect promises from axios calls
-            const newsArray = [];
-            //make an axios call for each search term in database
-            news.forEach(element => {
-                const newsPromises = [];
-                console.log('inside news.forEach');
-                const query = element.search_term;
-                newsPromises.push(
-                    axios(`${url}${token}&format=json&sort=crawled&site=cnn.com&q=%22${query}%22language%3Aenglish`));
-                newsPromises.push(
-                    axios(`${url}${token}&format=json&sort=crawled&site=foxnews.com&q=%22${query}%22language%3Aenglish`));
-                newsPromises.push(
-                    axios(`${url}${token}&format=json&sort=crawled&site=bbc.com&q=%22${query}%22language%3Aenglish`));
-                //console log length of promise array to make sure it's working
-                console.log('promise array check: ', newsPromises.length, newsPromises)
-                //NOTE!! CONVERT ' ' to '%20' within queries && learn to save ' ' in SQL
+        .then(terms => {
+            const termsArray = [];
+            terms.forEach(e => {
+                termsArray.push({ term: e.search_term })
+            })
+            res.locals.newsArray = termsArray;
+            next();
+        })
+}
+News.cnn = (req, res, next) => {
+    console.log('News.cnn')
+
+    //set array to collect promises from axios.all()s for each term
+    const newsPromises = [];
+    //make an axios call for each search term in database
 
 
-                //attach .then() call backs to package each axios result
-                axios.all(newsPromises).then(results => {
-                    console.log('inside axios.all', results)
-                    //set res.locals.newsArray to our processed results
-                    //run a map on the axios results array to transform it into an array of packaged data we can use
-                    res.locals.newsArray = results.map(element => {
-                        return element;
-                        // { THIS OBJECT WILL BE THE RELEVANT DATA TO RETURN}
-                    });
-                });
-            });
+    res.locals.newsArray.forEach(element => {
+        console.log('inside terms.forEach');
+        const query = element.term;
+        //axios call to CNN route for each search term
+        newsPromises.push(
+            axios(`${url}${token}&format=json&sort=crawled&site=cnn.com&q=%22${query}%22language%3Aenglish&size=2`));
+        //console log length of promise array to make sure it's working
+        console.log('promise array check: ', newsPromises.length, newsPromises)
+    })
+    axios.all(newsPromises).then(results => {
+            res.locals.newsArray = res.locals.newsArray.map((element, index) => {
+                console.log(results[index].data.totalResults);
+                return {
+                    term: element.term,
+                    cnn: results[index].data.totalResults
+                }
+            })
+            console.log(res.locals.newsArray)
             next();
         })
         .catch(err => {
-            console.log("error fetching data --News.findAll")
+            console.log("error fetching data --News.cnn")
         })
 };
+News.fox = (req, res, next) => {
+    //AXIOS calls to fox
+    console.log('News.fox')
+
+    //set array to collect promises from axios.all()s for each term
+    const newsPromises = [];
+    //make an axios call for each search term in database
+
+
+    res.locals.newsArray.forEach(element => {
+        console.log('inside terms.forEach');
+        const query = element.term;
+        //axios call to fox route for each search term
+        newsPromises.push(
+            axios(`${url}${token}&format=json&sort=crawled&site=foxnews.com&q=%22${query}%22language%3Aenglish&size=2`));
+        //console log length of promise array to make sure it's working
+        console.log('promise array check: ', newsPromises.length, newsPromises)
+    })
+    axios.all(newsPromises).then(results => {
+            res.locals.newsArray = res.locals.newsArray.map((element, index) => {
+                console.log(results[index].data.totalResults);
+                return {
+                    term: element.term,
+                    cnn: element.cnn,
+                    fox: results[index].data.totalResults
+                }
+            })
+            console.log(res.locals.newsArray)
+            next();
+        })
+        .catch(err => {
+            console.log("error fetching data --News.fox", err)
+        })
+}
+News.bbc = (req, res, next) => {
+    console.log('News.bbc')
+
+    //set array to collect promises from axios.all()s for each term
+    const newsPromises = [];
+    //make an axios call for each search term in database
+
+
+    res.locals.newsArray.forEach(element => {
+        console.log('inside terms.forEach');
+        const query = element.term;
+        //axios call to bbc route for each search term
+        newsPromises.push(
+            axios(`${url}${token}&format=json&sort=crawled&site=bbc.com&q=%22${query}%22language%3Aenglish&size=2`));
+        //console log length of promise array to make sure it's working
+        console.log('promise array check: ', newsPromises.length, newsPromises)
+    })
+    axios.all(newsPromises).then(results => {
+            res.locals.newsArray = res.locals.newsArray.map((element, index) => {
+                console.log(results[index].data.totalResults);
+                return {
+                    term: element.term,
+                    cnn: element.cnn,
+                    fox: element.fox,
+                    bbc: results[index].data.totalResults
+                }
+            })
+            console.log(res.locals.newsArray)
+            next();
+        })
+        .catch(err => {
+            console.log("error fetching data --News.bbc")
+        })
+}
 
 // News.findById = (req, res, next) => {
-// 	db.one('SELECT * FROM news WHERE ID=$1', [req.params.id]).then((news) => {
-// 		res.locals.news = news;
-// 		next();
-// 	})
-// 	.catch(err => {
-// 		console.log("error fetching data from the database")
-// 	})
+//  db.one('SELECT * FROM news WHERE ID=$1', [req.params.id]).then((news) => {
+//      res.locals.news = news;
+//      next();
+//  })
+//  .catch(err => {
+//      console.log("error fetching data from the database")
+//  })
 // };
 
 News.create = (req, res, next) => {
