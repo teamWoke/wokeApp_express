@@ -168,8 +168,8 @@ News.create = (req, res, next) => {
 }
 
 News.destroy = (req, res, next) => {
-    console.log("Firing delete");
-    const { id } = req.params.id;
+    console.log("Firing delete", req.params.id);
+    const id = req.params.id;
     db.none(
             'DELETE FROM news WHERE id = $1', [id]
         ).then(() => next())
