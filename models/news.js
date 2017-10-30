@@ -167,6 +167,10 @@ News.create = (req, res, next) => {
         })
 }
 
+// News.getTerms = (user_id) => {
+//     return db.any(`SELECT FROM news WHERE user_id = $1`, user_id);
+// };
+
 News.destroy = (req, res, next) => {
     console.log("Firing delete", req.params.id);
     const id = req.params.id;
