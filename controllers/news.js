@@ -3,13 +3,13 @@ const router = express.Router();
 
 const News = require('../models/news');
 
-router.get('/',
+router.get('/search',
 	 News.terms,
 	 News.cnn,
 	 News.fox,
 	 News.bbc,
 	  (req, res) => {
-	console.log('controller /')
+	console.log('controller FOR SEARCH')
 	const dataArray = res.locals.newsArray;
 	res.json({
 		message: 'Here is your data!',
@@ -49,7 +49,7 @@ router.delete('/:id', News.destroy, (req, res) => {
 router.get('/dashboard',
 	 News.terms,
 	  (req, res) => {
-	console.log('controller /')
+	console.log('controller FOR DASHBOARD')
 	const dataArray = res.locals.newsArray;
 	res.json({
 		message: 'Here is your data!',
