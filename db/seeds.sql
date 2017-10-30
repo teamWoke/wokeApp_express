@@ -14,5 +14,3 @@ CREATE TABLE news (
 	search_term VARCHAR,
 	user_id INT REFERENCES users(id)
 	);
-
-INSERT INTO news (search_term) VALUES ('Donald Trump'), ('climate'), ('opioid');

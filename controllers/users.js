@@ -10,7 +10,7 @@ router.get('/validate', Auth.restrict, (req, res)=>{
   res.json({
     name: req.user.name,
     email: req.user.email,
-    token: req.users.token,
+    token: req.user.token,
     id: req.user.id
   })
 })
