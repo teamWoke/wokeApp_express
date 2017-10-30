@@ -31,7 +31,7 @@ const tokens = [token0, token1, token2, token3, token4, token5, token6, token7, 
 
 News.terms = (req, res, next) => {
     // PULL TERMS FROM DATABASE AND SET AS FIRST ENTRY IN OBJECT ARRAY
-    // console.log('News.terms');
+    console.log('News.terms');
         const user_id = req.user.id;
     db.many('SELECT * FROM news WHERE user_id = $1', user_id)
         .then(terms => {

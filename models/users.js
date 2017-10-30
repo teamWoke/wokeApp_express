@@ -24,7 +24,10 @@ const User = {
   // this will be called each time the user logs in
   updateToken: (id, token) => {
     return db.one(`UPDATE users SET token = $1
-      WHERE id = $2 RETURNING name, email, token, id`, [token, id]);
+      WHERE id = $2 RETURNING name, email, token, id`, [token, id])
+    .then(data=>{
+      res.locals.user
+    });
   },
 
   // model method to create a user
