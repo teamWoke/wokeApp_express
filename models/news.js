@@ -157,7 +157,8 @@ News.bbc = (req, res, next) => {
 
 News.create = (req, res, next) => {
     const { id } = req.params
-    const { search_term, user_id } = req.body;
+    const { search_term } = req.body;
+    const user_id = req.user.id;
     console.log(req.body);
     db.one(
             'INSERT INTO news (search_term, user_id)  VALUES ($1, $2) RETURNING *', [search_term, user_id])
