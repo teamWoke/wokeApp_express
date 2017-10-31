@@ -21,7 +21,7 @@ Woke receives and stores search term(s) provided by the user.  It then retrieves
 
 ********************************
 ## Reach Goals:
-- [ ] Visual representation of data returned to user in the form of a bar graph
+- [x] Visual representation of data returned to user in the form of a bar graph
 - [ ] Visual representation of data returned to user in the form of a word cloud
 - [ ] "Choose two" compare function that selects two or three search terms instead of selcting all saved terms
 - [ ] Adjustable date range to compare topic coverage during a given period in history
