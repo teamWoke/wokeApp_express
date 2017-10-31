@@ -38,6 +38,7 @@ Woke receives and stores search term(s) provided by the user.  It then retrieves
 - HTML
 - CSS
 - PostgreSQL
+- Token authentication by Jackie Casper
 
 ********************************
 ## Node Packages:
